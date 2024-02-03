@@ -7,10 +7,11 @@
 #define NUM_COLUMNS 20 // Número de columnas de la matriz
 #define DIFFICULTY 100 // Dificultad del juego
 
+void draw_banner();
 void start_game(char game_board[][NUM_COLUMNS]);
-void draw_board(char game_board[][NUM_COLUMNS]);
-void draw_apple(char game_board[][NUM_COLUMNS], int *apple_drawn);
 void move_snake(char game_board[][NUM_COLUMNS], int segments[][2], int head[], int movement[], int *num_segments, int *apple_drawn);
+void draw_board(char game_board[][NUM_COLUMNS], int *num_segments);
+void draw_apple(char game_board[][NUM_COLUMNS], int *apple_drawn);
 void change_direction(char key_pressed, int movement[]);
 int game_over(char game_board[][NUM_COLUMNS],int i, int j);
 
@@ -25,7 +26,7 @@ int main()
 
     do{
 	clear(); // Limpia la pantalla de la terminal
-	addstr("Option menu\n1 - Start game\n2 - Exit\n");
+	draw_banner();
 
 	switch(option_chosen = getch()){
     	    case '1':
@@ -45,6 +46,18 @@ int main()
     endwin(); // Restaura el estado original de la terminal
 
     return 0;
+}
+
+void draw_banner()
+{
+addstr("  _____             _           _____                      \n");
+addstr(" / ____|           | |         / ____|                     \n");
+addstr("| (___  _ __   __ _| | _____  | |  __  __ _ _ __ ___   ___ \n");
+addstr(" \\___ \\| '_ \\ / _` | |/ / _ \\ | | |_ |/ _` | '_ ` _ \\ / _ \\\n");
+addstr(" ____) | | | | (_| |   <  __/ | |__| | (_| | | | | | |  __/\n");
+addstr("|_____/|_| |_|\\__,_|_|\\_\\___|  \\_____|\\__,_|_| |_| |_|\\___|\n");
+
+addstr("\n1 - Start game\n2 - Exit\n");
 }
 
 void start_game(char game_board[][NUM_COLUMNS])
@@ -70,16 +83,17 @@ void start_game(char game_board[][NUM_COLUMNS])
 	if(!apple_drawn)
 	    draw_apple(game_board, &apple_drawn);
 
-	draw_board(game_board);
+	draw_board(game_board, &num_segments);
 	napms(DIFFICULTY); // Añade delay, el tiempo está en milisegundos
 	refresh(); // Actualiza la pantalla
     }
-
 }
 
-void draw_board(char game_board[][NUM_COLUMNS])
+void draw_board(char game_board[][NUM_COLUMNS], int *num_segments)
 {
-    addstr("#--------------------#\n");
+addstr("                  oo\n");
+addstr("   . . . __/\\_/\\_/`'\n");
+    addstr("+--------------------+\n");
 
     for(int i = 0; i < NUM_ROWS; i++){
 	addstr("|");	
@@ -90,7 +104,9 @@ void draw_board(char game_board[][NUM_COLUMNS])
 	addstr("|\n");	
     }
 
-    addstr("#--------------------#");
+    addstr("+--------------------+\n");
+    printw("|Score: %13d|\n", *num_segments);
+    addstr("+--------------------+");
 }
 
 void change_direction(char key_pressed, int movement[])
@@ -136,7 +152,6 @@ void move_snake(char game_board[][NUM_COLUMNS], int segments[][2], int head[], i
 
 	    game_board[segments[i][0]][segments[i][1]] = '*';
 	}
-	
     }
 
     head[0] += movement[0]; head[1] += movement[1]; 

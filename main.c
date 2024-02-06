@@ -8,6 +8,7 @@
 #define DIFFICULTY 100 // Dificultad del juego
 
 void draw_banner();
+void draw_instructions();
 void start_game(char game_board[][NUM_COLUMNS]);
 void move_snake(char game_board[][NUM_COLUMNS], int segments[][2], int head[], int movement[], int *num_segments, int *apple_drawn);
 void draw_board(char game_board[][NUM_COLUMNS], int *num_segments);
@@ -35,12 +36,16 @@ int main()
     	        start_game(game_board);
 		nodelay(stdscr, FALSE); // Espera a que el usuario presione una tecla para continuar
     	        break;
-    	    case '2':
+	    case '2':
+		clear();
+		draw_instructions();
+		break;;
+    	    case '3':
     	        addstr("Exiting the game...\n");
     	        break;
     	}
 
-    }while(option_chosen != '2');
+    }while(option_chosen != '3');
 
     echo(); // Habilita la impresión por terminal
     endwin(); // Restaura el estado original de la terminal
@@ -50,14 +55,33 @@ int main()
 
 void draw_banner()
 {
-addstr("  _____             _           _____                      \n");
-addstr(" / ____|           | |         / ____|                     \n");
-addstr("| (___  _ __   __ _| | _____  | |  __  __ _ _ __ ___   ___ \n");
-addstr(" \\___ \\| '_ \\ / _` | |/ / _ \\ | | |_ |/ _` | '_ ` _ \\ / _ \\\n");
-addstr(" ____) | | | | (_| |   <  __/ | |__| | (_| | | | | | |  __/\n");
-addstr("|_____/|_| |_|\\__,_|_|\\_\\___|  \\_____|\\__,_|_| |_| |_|\\___|\n");
+    addstr("  _____             _           _____                      \n");
+    addstr(" / ____|           | |         / ____|                     \n");
+    addstr("| (___  _ __   __ _| | _____  | |  __  __ _ _ __ ___   ___ \n");
+    addstr(" \\___ \\| '_ \\ / _` | |/ / _ \\ | | |_ |/ _` | '_ ` _ \\ / _ \\\n");
+    addstr(" ____) | | | | (_| |   <  __/ | |__| | (_| | | | | | |  __/\n");
+    addstr("|_____/|_| |_|\\__,_|_|\\_\\___|  \\_____|\\__,_|_| |_| |_|\\___|\n");
+    
+    addstr("\n1 - Start game\n2 - Show instrcctions\n3 - Exit\n");
+}
 
-addstr("\n1 - Start game\n2 - Exit\n");
+void draw_instructions()
+{
+    addstr("______                           _        _____          _                   _   _\n");
+    addstr("|  _  \\                         (_)      |_   _|        | |                 | | (_)\n");
+    addstr("| | | |_   _ _ __ ___  _ __ ___  _  ___    | | _ __  ___| |_ _ __ _   _  ___| |_ _  ___  _ __  ___\n");
+    addstr("| | | | | | | '_ ` _ \\| '_ ` _ \\| |/ _ \\   | || '_ \\/ __| __| '__| | | |/ __| __| |/ _ \\| '_ \\/ __|\n");
+    addstr("| |/ /| |_| | | | | | | | | | | | |  __/  _| || | | \\__ \\ |_| |  | |_| | (__| |_| | (_) | | | \\__ \\\n");
+    addstr("|___/  \\__,_|_| |_| |_|_| |_| |_|_|\\___|  \\___/_| |_|___/\\__|_|   \\__,_|\\___|\\__|_|\\___/|_| |_|___/\n\n");
+
+    addstr("h -> Move left\n");
+    addstr("l -> Move right\n");
+    addstr("j -> Move down\n");
+    addstr("k -> Move up\n");
+    addstr("return -> Finish the game\n\n");
+
+    addstr("Press any key to close the instructions ");
+    getch();
 }
 
 void start_game(char game_board[][NUM_COLUMNS])
@@ -91,8 +115,8 @@ void start_game(char game_board[][NUM_COLUMNS])
 
 void draw_board(char game_board[][NUM_COLUMNS], int *num_segments)
 {
-addstr("                  oo\n");
-addstr("   . . . __/\\_/\\_/`'\n");
+    addstr("                  oo\n");
+    addstr("   . . . __/\\_/\\_/`'\n");
     addstr("+--------------------+\n");
 
     for(int i = 0; i < NUM_ROWS; i++){

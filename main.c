@@ -128,7 +128,12 @@ void start_game(char game_board[][NUM_COLUMNS])
 void save_score(int *score)
 {
     addstr("Do you want save your score [Y/n] ");
+
+START:
     char option_chosen = getch();
+
+    if(option_chosen != 'Y' && option_chosen != 'y' && option_chosen != 'N' && option_chosen != 'n') 
+	goto START;
 
     if(option_chosen == 'y' || option_chosen == 'Y'){
 	FILE *score_file;
@@ -149,7 +154,6 @@ void save_score(int *score)
 
 	    for(i = 0; (character = getch()) != '\n'; i++)
 		*(nickname + i) = character;
-	        
 	    *(nickname + i) = '\0';
 
 	    fprintf(score_file, "%s -> %d\n", nickname, *score);

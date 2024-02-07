@@ -62,24 +62,14 @@ int main()
 
 void draw_banner()
 {
-    addstr("  _____             _           _____                      \n");
-    addstr(" / ____|           | |         / ____|                     \n");
-    addstr("| (___  _ __   __ _| | _____  | |  __  __ _ _ __ ___   ___ \n");
-    addstr(" \\___ \\| '_ \\ / _` | |/ / _ \\ | | |_ |/ _` | '_ ` _ \\ / _ \\\n");
-    addstr(" ____) | | | | (_| |   <  __/ | |__| | (_| | | | | | |  __/\n");
-    addstr("|_____/|_| |_|\\__,_|_|\\_\\___|  \\_____|\\__,_|_| |_| |_|\\___|\n");
-    
-    addstr("\n1 - Start game\n2 - View scores\n3 - Show instrcctions\n4 - Exit\n");
+    addstr("THE SNAKE GAME\n\n");
+
+    addstr("1 - Start game\n2 - View scores\n3 - Show instrcctions\n4 - Exit\n");
 }
 
 void draw_instructions()
 {
-    addstr("______                           _        _____          _                   _   _\n");
-    addstr("|  _  \\                         (_)      |_   _|        | |                 | | (_)\n");
-    addstr("| | | |_   _ _ __ ___  _ __ ___  _  ___    | | _ __  ___| |_ _ __ _   _  ___| |_ _  ___  _ __  ___\n");
-    addstr("| | | | | | | '_ ` _ \\| '_ ` _ \\| |/ _ \\   | || '_ \\/ __| __| '__| | | |/ __| __| |/ _ \\| '_ \\/ __|\n");
-    addstr("| |/ /| |_| | | | | | | | | | | | |  __/  _| || | | \\__ \\ |_| |  | |_| | (__| |_| | (_) | | | \\__ \\\n");
-    addstr("|___/  \\__,_|_| |_| |_|_| |_| |_|_|\\___|  \\___/_| |_|___/\\__|_|   \\__,_|\\___|\\__|_|\\___/|_| |_|___/\n\n");
+    addstr("DUMMIE INSTRUCTIONS\n\n");
 
     addstr("h -> Move left\n");
     addstr("l -> Move right\n");
@@ -140,10 +130,8 @@ START:
     if(option_chosen == 'y' || option_chosen == 'Y'){
 	FILE *score_file = fopen(FILE_NAME, "a");
 
-	if(score_file == NULL){
-	    addstr("File could not be opened\nPress any key to exit ");
-	    getch();
-	}
+	if(score_file == NULL)
+	    addstr("File could not be opened");
 	else{
 	    char character;
 	    char *nickname;
@@ -159,11 +147,13 @@ START:
 
 	    fprintf(score_file, "%s -> %d\n", nickname, *score);
 
-	    addstr("\nScore saved correctly\nPress any key to exit ");
-	    getch();
+	    addstr("\n\nScore saved correctly");
 	}
 
 	fclose(score_file);
+
+	addstr("\nPress any key to exit ");
+	getch();
     }
 }
 
@@ -171,24 +161,22 @@ void view_scores()
 {
     FILE *score_file = fopen(FILE_NAME, "r");
 
-    if(score_file == NULL){
-        addstr("File could not be opened\nPress any key to exit ");
-        getch();
-    }
+    if(score_file == NULL)
+        addstr("File could not be opened"); 
     else{
 	char max_length = 100;
 	char bufer[max_length];
 
-	addstr("Scores\n\n");
+	addstr("SCORES\n\n");
 
 	while(fgets(bufer, max_length, score_file))
 	    printw("%s", bufer);
-
-	addstr("\nPress any key to exit ");
-	getch();
     }
 
     fclose(score_file);
+
+    addstr("\nPress any key to exit ");
+    getch();
 }
 
 void draw_board(char game_board[][NUM_COLUMNS], int *num_segments)

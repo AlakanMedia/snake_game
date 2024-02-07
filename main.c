@@ -1,3 +1,8 @@
+/*
+ * Author: Juan Puerta
+ * Purpose: Practice my knowledge in C
+ */
+
 #include <ncurses.h> // Contiene la librería stdio
 #include <string.h> // Incluye la función memset
 #include <stdlib.h> // Contiene la función rand para general números aleatorios
@@ -9,6 +14,7 @@
 
 void draw_banner();
 void draw_instructions();
+void save_score(int *score);
 void start_game(char game_board[][NUM_COLUMNS]);
 void move_snake(char game_board[][NUM_COLUMNS], int segments[][2], int head[], int movement[], int *num_segments, int *apple_drawn);
 void draw_board(char game_board[][NUM_COLUMNS], int *num_segments);
@@ -32,20 +38,20 @@ int main()
 	switch(option_chosen = getch()){
     	    case '1':
     	        memset(game_board, ' ', sizeof(game_board));
-		nodelay(stdscr, TRUE); // No espera a que el usuario presione una tecla para continuar
     	        start_game(game_board);
-		nodelay(stdscr, FALSE); // Espera a que el usuario presione una tecla para continuar
     	        break;
 	    case '2':
+		break;
+	    case '3':
 		clear();
 		draw_instructions();
 		break;;
-    	    case '3':
+    	    case '4':
     	        addstr("Exiting the game...\n");
     	        break;
     	}
 
-    }while(option_chosen != '3');
+    }while(option_chosen != '4');
 
     echo(); // Habilita la impresión por terminal
     endwin(); // Restaura el estado original de la terminal
@@ -62,7 +68,7 @@ void draw_banner()
     addstr(" ____) | | | | (_| |   <  __/ | |__| | (_| | | | | | |  __/\n");
     addstr("|_____/|_| |_|\\__,_|_|\\_\\___|  \\_____|\\__,_|_| |_| |_|\\___|\n");
     
-    addstr("\n1 - Start game\n2 - Show instrcctions\n3 - Exit\n");
+    addstr("\n1 - Start game\n2 - View scores\n3 - Show instrcctions\n4 - Exit\n");
 }
 
 void draw_instructions()
@@ -95,6 +101,8 @@ void start_game(char game_board[][NUM_COLUMNS])
 
     game_board[head[0]][head[1]] = '*';
 
+    nodelay(stdscr, TRUE); // No espera a que el usuario presione una tecla para continuar
+
     while((key_pressed = getch()) != '\n'){
 	clear(); // Limpia la pantalla de la terminal
 	change_direction(key_pressed, movement);
@@ -110,6 +118,48 @@ void start_game(char game_board[][NUM_COLUMNS])
 	draw_board(game_board, &num_segments);
 	napms(DIFFICULTY); // Añade delay, el tiempo está en milisegundos
 	refresh(); // Actualiza la pantalla
+    }
+
+    nodelay(stdscr, FALSE); // Espera a que el usuario presione una tecla para continuar
+
+    save_score(&num_segments);
+}
+
+void save_score(int *score)
+{
+    addstr("Do you want save your score [Y/n] ");
+    char option_chosen = getch();
+
+    if(option_chosen == 'y' || option_chosen == 'Y'){
+	FILE *score_file;
+	score_file = fopen("scores.txt", "a");
+
+	if(score_file == NULL){
+	    addstr("File could not be opened");
+	    addstr("\nPress any key to close the instructions ");
+	    getch();
+	}
+	else{
+	    int i;
+	    char character;
+	    char *nickname;
+	    char *line_save;
+		
+	    addstr("\nEnter your nickname: ");
+
+	    for(i = 0; (character = getch()) != '\n'; i++)
+		*(nickname + i) = character;
+	        
+	    *(nickname + i) = '\0';
+
+	    fprintf(score_file, "%s -> %d\n", nickname, *score);
+
+	    addstr("\nScore saved correctly");
+	    addstr("\nPress any key to close the instructions ");
+	    getch();
+	}
+
+	fclose(score_file);
     }
 }
 

@@ -26,7 +26,7 @@ void draw_instructions()
 
 void save_score(int *score)
 {
-    char option_chosen;
+    unsigned char option_chosen;
     addstr("Do you want save your score? [Y/n] ");
 
 START:
@@ -36,31 +36,28 @@ START:
 	goto START;
 
     if(option_chosen == 'y' || option_chosen == 'Y'){
-	FILE *score_file = fopen(FILE_NAME, "a");
+	FILE *score_file;
 
-	if(score_file == NULL)
-	    addstr("File could not be opened");
-	else{
-	    char character;
-	    char *nickname;
-	    char *line_save;
+	if(score_file = fopen(FILE_NAME, "a")){
+	    unsigned char character;
+	    unsigned char *nickname;
+	    unsigned char *line_save;
+	    int i;
 		
 	    addstr("\nEnter your nickname: ");
-
-	    int i;
 
 	    for(i = 0; (character = getch()) != '\n'; i++)
 		*(nickname + i) = character;
 	    *(nickname + i) = '\0';
 
 	    fprintf(score_file, "%s -> %d\n", nickname, *score);
-
-	    addstr("\n\nScore saved correctly");
+	    addstr("\nScore saved correctly");
+	    fclose(score_file);
 	}
+	else
+	    addstr("File could not be opened");
 
-	fclose(score_file);
-
-	addstr("\nPress any key to exit ");
+	addstr("\n\nPress any key to exit ");
 	getch();
     }
 }
@@ -70,8 +67,8 @@ void view_scores()
     FILE *score_file;
 
     if(score_file = fopen(FILE_NAME, "r")){
-	char max_length = 100;
-	char bufer[max_length];
+	char max_length = 30;
+	unsigned char bufer[max_length];
 
 	addstr("SCORES\n\n");
 
@@ -83,11 +80,11 @@ void view_scores()
     else
         addstr("The \"scores.txt\" file doesn't exits\nPlay to create the file"); 
 
-    addstr("\n\nPress any key to exit ");
+    addstr("\nPress any key to exit ");
     getch();
 }
 
-void draw_board(char game_board[][NUM_COLUMNS], int *num_segments)
+void draw_board(unsigned char game_board[][NUM_COLUMNS], int *num_segments)
 {
     addstr("                  oo\n");
     addstr("   . . . __/\\_/\\_/`'\n");

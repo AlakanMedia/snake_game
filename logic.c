@@ -3,14 +3,14 @@
 
 #include "definitions.h"
 
-void start_game(char game_board[][NUM_COLUMNS])
+void start_game(unsigned char game_board[][NUM_COLUMNS])
 {
     int segments[(NUM_ROWS * NUM_COLUMNS) - 1][2];  // Arreglo en donde se va a guardar la posición de los segmentos de la serpiente
     int movement[2] = {0, 1};	// [0, 1] derecha, [0, -1] izquierda, [1, 0] abajo, [-1, 0] arriba
     int head[2] = {0, 0};	// Cabeza de la serpiente
     int num_segments = 0;       // Número de segmentos actuales que tiene la serpiente; también se puede usar como puntuación
     int apple_drawn = 0;        // Para saber si la manzana está dibujada
-    char key_pressed;
+    unsigned char key_pressed;
 
     game_board[head[0]][head[1]] = '*';
 
@@ -38,7 +38,7 @@ void start_game(char game_board[][NUM_COLUMNS])
     save_score(&num_segments);
 }
 
-void change_direction(char key_pressed, int movement[])
+void change_direction(unsigned char key_pressed, int movement[])
 {
     switch(key_pressed){
 	case 'k':
@@ -56,7 +56,7 @@ void change_direction(char key_pressed, int movement[])
     }
 }
 
-void move_snake(char game_board[][NUM_COLUMNS], int segments[][2], int head[], int movement[], int *num_segments, int *apple_drawn)
+void move_snake(unsigned char game_board[][NUM_COLUMNS], int segments[][2], int head[], int movement[], int *num_segments, int *apple_drawn)
 {
     if(game_board[head[0] + movement[0]][head[1] + movement[1]] == '@'){
 	segments[*num_segments][0] = head[0]; segments[*num_segments][1] = head[1];
@@ -87,7 +87,7 @@ void move_snake(char game_board[][NUM_COLUMNS], int segments[][2], int head[], i
     game_board[head[0]][head[1]] = '*';
 }
 
-void draw_apple(char game_board[][NUM_COLUMNS], int *apple_drawn)
+void draw_apple(unsigned char game_board[][NUM_COLUMNS], int *apple_drawn)
 {
     int pos_row, pos_column;
 
@@ -103,7 +103,7 @@ void draw_apple(char game_board[][NUM_COLUMNS], int *apple_drawn)
     }
 }
 
-int game_over(char game_board[][NUM_COLUMNS], int i, int j)
+int game_over(unsigned char game_board[][NUM_COLUMNS], int i, int j)
 {
     if(i < 0 || i >= NUM_ROWS || j < 0 || j >= NUM_COLUMNS || game_board[i][j] == '*')
 	return 1;

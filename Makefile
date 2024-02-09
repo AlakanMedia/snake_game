@@ -1,3 +1,5 @@
+all: clean program
+
 # Variables
 OBJS = main.o logic.o drawing.o
 

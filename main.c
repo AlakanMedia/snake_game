@@ -12,8 +12,8 @@
 
 int main()
 {
-    char game_board[NUM_ROWS][NUM_COLUMNS]; // Tablero
-    char option_chosen;
+    unsigned char game_board[NUM_ROWS][NUM_COLUMNS]; // Tablero
+    unsigned char option_chosen;
 
     initscr();	    // Inicializa la pantalla
     noecho();	    // Deshabilita la impresión de las teclas en la terminal

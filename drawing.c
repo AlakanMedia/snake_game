@@ -69,9 +69,7 @@ void view_scores()
 {
     FILE *score_file;
 
-    if(score_file = fopen(FILE_NAME, "r"))
-        addstr("File could not be opened"); 
-    else{
+    if(score_file = fopen(FILE_NAME, "r")){
 	char max_length = 100;
 	char bufer[max_length];
 
@@ -82,8 +80,10 @@ void view_scores()
 
 	fclose(score_file);
     }
+    else
+        addstr("The \"scores.txt\" file doesn't exits\nPlay to create the file"); 
 
-    addstr("\nPress any key to exit ");
+    addstr("\n\nPress any key to exit ");
     getch();
 }
 

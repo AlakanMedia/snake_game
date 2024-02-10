@@ -17,5 +17,3 @@ make
 
 ## License
 snake_game is [GPLv3](./LICENSE)
-
-The snake_game documentation (e.g., `.md`) is [GNU General Public License](./LICENSE)

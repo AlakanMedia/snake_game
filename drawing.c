@@ -1,15 +1,16 @@
 #include <ncurses.h> // Contiene la librería stdio
-
 #include "definitions.h"
 
-void draw_banner()
+void 
+draw_banner()
 {
     addstr("THE SNAKE GAME\n\n");
-
-    addstr("1 - Start game\n2 - View scores\n3 - Show instructions\n4 - Exit\n");
+    addstr("1 - Start game\n2 - View scores\n");
+    addstr("3 - Show instructions\n4 - Exit\n");
 }
 
-void draw_instructions()
+void 
+draw_instructions()
 {
     addstr("DUMMIE INSTRUCTIONS\n\n");
 
@@ -24,7 +25,8 @@ void draw_instructions()
 }
 
 
-void save_score(int *score)
+void 
+save_score(int *score)
 {
     unsigned char option_chosen;
     addstr("Do you want save your score? [Y/n] ");
@@ -32,13 +34,16 @@ void save_score(int *score)
 START:
     option_chosen = getch();
 
-    if(option_chosen != 'Y' && option_chosen != 'y' && option_chosen != 'N' && option_chosen != 'n') 
+    if (option_chosen != 'Y' && option_chosen != 'y' 
+	&& option_chosen != 'N' && option_chosen != 'n') 
 	goto START;
 
-    if(option_chosen == 'y' || option_chosen == 'Y'){
+    if (option_chosen == 'y' || option_chosen == 'Y')
+    {
 	FILE *score_file;
 
-	if(score_file = fopen(FILE_NAME, "a")){
+	if (score_file = fopen(FILE_NAME, "a"))
+	{
 	    unsigned char character;
 	    unsigned char *nickname;
 	    unsigned char *line_save;
@@ -48,6 +53,7 @@ START:
 
 	    for(i = 0; (character = getch()) != '\n'; i++)
 		*(nickname + i) = character;
+
 	    *(nickname + i) = '\0';
 
 	    fprintf(score_file, "%s -> %d\n", nickname, *score);
@@ -62,38 +68,42 @@ START:
     }
 }
 
-void view_scores()
+void 
+view_scores()
 {
     FILE *score_file;
 
-    if(score_file = fopen(FILE_NAME, "r")){
+    if (score_file = fopen(FILE_NAME, "r"))
+    {
 	char max_length = 30;
 	unsigned char bufer[max_length];
 
 	addstr("SCORES\n\n");
 
-	while(fgets(bufer, max_length, score_file))
+	while (fgets(bufer, max_length, score_file))
 	    printw("%s", bufer);
 
 	fclose(score_file);
     }
     else
-        addstr("The \"scores.txt\" file doesn't exits\nPlay to create the file"); 
+        addstr("The \"scores.txt\" file doesn't exits\nPlay to create"); 
 
     addstr("\nPress any key to exit ");
     getch();
 }
 
-void draw_board(unsigned char game_board[][NUM_COLUMNS], int *num_segments)
+void 
+draw_board(unsigned char game_board[][NUM_COLUMNS], int *num_segments)
 {
     addstr("                  oo\n");
     addstr("   . . . __/\\_/\\_/`'\n");
     addstr("+--------------------+\n");
 
-    for(int i = 0; i < NUM_ROWS; i++){
+    for (int i = 0; i < NUM_ROWS; i++)
+    {
 	addstr("|");	
 
-	for(int j = 0; j < NUM_COLUMNS; j++)
+	for (int j = 0; j < NUM_COLUMNS; j++)
 	    printw("%c", *(*(game_board + i) + j));
 
 	addstr("|\n");	

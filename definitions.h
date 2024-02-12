@@ -11,7 +11,9 @@ void start_game(unsigned char game_board[][NUM_COLUMNS]);
 void change_direction(unsigned char key_pressed, int movement[]);
 int game_over(unsigned char game_board[][NUM_COLUMNS],int i, int j);
 void draw_apple(unsigned char game_board[][NUM_COLUMNS], int *apple_drawn);
-void move_snake(unsigned char game_board[][NUM_COLUMNS], int segments[][2], int head[], int movement[], int *num_segments, int *apple_drawn);
+void move_snake(unsigned char game_board[][NUM_COLUMNS], int segments[][2], 
+		int head[], int movement[], int *num_segments, 
+		int *apple_drawn);
 
 // Prototypes of the functions that are responsible for displaying text in the terminal
 void draw_banner();

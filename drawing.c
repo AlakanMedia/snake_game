@@ -75,13 +75,10 @@ view_scores()
 
     if (score_file = fopen(FILE_NAME, "r"))
     {
-	char max_length = 30;
-	unsigned char bufer[max_length];
-
 	addstr("SCORES\n\n");
 
-	while (fgets(bufer, max_length, score_file))
-	    printw("%s", bufer);
+	while (!feof(score_file)) // Verifica que no haya llegado al final del archivo
+	    printw("%c", fgetc(score_file));
 
 	fclose(score_file);
     }

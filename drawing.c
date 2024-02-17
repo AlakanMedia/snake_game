@@ -76,9 +76,21 @@ view_scores()
     if (score_file = fopen(FILE_NAME, "r"))
     {
 	addstr("SCORES\n\n");
+	
+	int character;
 
-	while (!feof(score_file)) // Verifica que no haya llegado al final del archivo
-	    printw("%c", fgetc(score_file));
+	// EOF es el carácter que nos indica que llegamos al final del archivo
+	while ((character = fgetc(score_file)) != EOF)
+	    printw("%c", character);
+
+	/*
+	 * El while que está comentado hace lo mismo que el while
+	 * que está en la parte de arriba, son dos maneras de hacer lo mismo
+	 *
+	 * feof(archivo) nos dice sí hemos llegado al final del archivo
+	 * while (!feof(score_file))
+	 *     printw("%c", fgetc(score_file));
+	*/
 
 	fclose(score_file);
     }
